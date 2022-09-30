@@ -1,0 +1,50 @@
+{
+    "name": "react-proj",
+    "version": "0.1.0",
+    "private": true,
+    "homepage": ".",
+    "dependencies": {
+        "prop-types": "15.7.2",
+        "react": "^16.13.1",
+        "react-content-loader": "^4.2.4",
+        "react-dom": "^16.13.1",
+        "react-router-dom": "^5.0.1",
+        "react-scripts": "5.0.1",
+        "socket.io": "^2.2.0",
+        "trim-right": "^1.0.1",
+        "ame-miniapp-components": "2.22.2",
+        "ame-super-app-client": "2.19.2"
+
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "esbuild": "node build.js",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@babel/core": "^7.7.2",
+        "@babel/helper-builder-react-jsx": "^7.12.13",
+        "@babel/helper-builder-react-jsx-experimental": "^7.12.11",
+        "@babel/helper-define-map": "^7.13.12",
+        "@babel/plugin-proposal-class-properties": "^7.7.0",
+        "esbuild": "^0.11.2",
+        "regenerator-runtime": "^0.13.7"
+    }
+}
