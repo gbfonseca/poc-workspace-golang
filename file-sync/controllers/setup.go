@@ -31,17 +31,40 @@ func Setup(c *gin.Context) {
 
 	userPath, _ := utils.GetUserWorkspace(requestBody.Email)
 
-	if err := os.MkdirAll(userPath, os.ModeSticky|os.ModePerm); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
+	exists := projectExists(userPath)
+
+	if !exists {
+
+		err := createSources(userPath, currentPath)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
 	}
-
-	reactProjPath := path.Join(currentPath, "..", "react-proj/")
-
-	utils.Copy(reactProjPath, userPath)
 
 	c.JSON(200, gin.H{
 		"message": "Setup finalizado com sucesso",
 	})
 
+}
+
+func createSources(userProjPath string, currentPath string) error {
+	if err := os.MkdirAll(userProjPath, os.ModeSticky|os.ModePerm); err != nil {
+
+		return err
+	}
+	reactProjPath := path.Join(currentPath, "..", "react-proj/")
+
+	utils.Copy(reactProjPath, userProjPath)
+	return nil
+}
+
+func projectExists(userProjPath string) bool {
+	_, err := os.ReadDir(userProjPath)
+
+	if err != nil {
+		return false
+	}
+
+	return true
 }
