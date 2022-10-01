@@ -4,22 +4,18 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"workspace_go/main/models"
 	"workspace_go/main/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
-type RequestBody struct {
-	Email string `form:"email" json:"email" xml:"email" binding:"required"`
-}
-
 func Setup(c *gin.Context) {
 
-	var requestBody RequestBody
+	var ameConf models.AmeConf
 
-	if err := c.ShouldBindJSON(&requestBody); err != nil {
+	if err := c.ShouldBindJSON(&ameConf); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
 		return
 	}
 
@@ -29,7 +25,7 @@ func Setup(c *gin.Context) {
 		return
 	}
 
-	userPath, _ := utils.GetUserWorkspace(requestBody.Email)
+	userPath, _ := utils.GetUserWorkspace(ameConf.Email)
 
 	exists := projectExists(userPath)
 
