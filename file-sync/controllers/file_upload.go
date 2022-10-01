@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"os/exec"
 	"path/filepath"
-	"time"
 	"workspace_go/main/utils"
 
 	"github.com/gin-gonic/gin"
@@ -23,7 +22,7 @@ func FileUpload(c *gin.Context) {
 	}
 
 	extension := filepath.Ext(file.Filename)
-	newFileName := time.Now().String() + extension
+	newFileName := "miniapp" + extension
 
 	userReactProj := userPath + "/react-proj"
 
@@ -40,8 +39,7 @@ func FileUpload(c *gin.Context) {
 	// Bloqueante
 	cmd.Run()
 
-	cmd = exec.Command("rm", "-rf", userPath+"/"+newFileName)
-
+	cmd = exec.Command("rm", "-rf", userReactProj+"/"+newFileName)
 	go cmd.Run()
 
 	// TODO - Transpile JSX -> JS
