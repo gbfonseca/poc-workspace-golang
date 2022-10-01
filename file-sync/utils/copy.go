@@ -5,5 +5,5 @@ import "os/exec"
 func Copy(src string, dest string) {
 	cmd := exec.Command("cp", "-R", src, dest)
 
-	go cmd.Run()
+	cmd.Run()
 }

@@ -28,7 +28,11 @@ func FileUpload(c *gin.Context) {
 
 	c.SaveUploadedFile(file, userReactProj+"/"+newFileName)
 
-	utils.Unzip(userPath+"/"+newFileName, userPath)
+	err = utils.Unzip(userReactProj+"/"+newFileName, userReactProj)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	cmd := exec.Command("yarn")
 	cmd.Dir = userReactProj
