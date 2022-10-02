@@ -34,16 +34,7 @@ func FileUpload(c *gin.Context) {
 		return
 	}
 
-	cmd := exec.Command("yarn")
-	cmd.Dir = userReactProj
-
-	// Não Bloqueante
-	// go cmd.Run()
-
-	// Bloqueante
-	cmd.Run()
-
-	cmd = exec.Command("rm", "-rf", userReactProj+"/"+newFileName)
+	cmd := exec.Command("rm", "-rf", userReactProj+"/"+newFileName)
 	go cmd.Run()
 
 	// TODO - Transpile JSX -> JS

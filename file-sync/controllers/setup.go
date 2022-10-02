@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
+	"os/exec"
 	"path"
 	"workspace_go/main/models"
 	"workspace_go/main/utils"
@@ -45,6 +46,15 @@ func Setup(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	cmd := exec.Command("yarn")
+	cmd.Dir = userPath + "/react-proj"
+
+	// Não Bloqueante
+	// go cmd.Run()
+
+	// Bloqueante
+	cmd.Run()
 
 	c.JSON(200, gin.H{
 		"message": "Setup finalizado com sucesso",
