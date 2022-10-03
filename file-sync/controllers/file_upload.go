@@ -24,17 +24,17 @@ func FileUpload(c *gin.Context) {
 	extension := filepath.Ext(file.Filename)
 	newFileName := "miniapp" + extension
 
-	userReactProj := userWorkspacePath + "/react-proj"
+	userProj := userWorkspacePath + "/user-proj"
 
-	c.SaveUploadedFile(file, userReactProj+"/"+newFileName)
+	c.SaveUploadedFile(file, userProj+"/"+newFileName)
 
-	err = utils.Unzip(userReactProj+"/"+newFileName, userReactProj)
+	err = utils.Unzip(userProj+"/"+newFileName, userProj)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	cmd := exec.Command("rm", "-rf", userReactProj+"/"+newFileName)
+	cmd := exec.Command("rm", "-rf", userProj+"/"+newFileName)
 	go cmd.Run()
 
 	// TODO - Transpile JSX -> JS

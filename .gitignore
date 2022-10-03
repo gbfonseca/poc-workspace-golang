@@ -3,3 +3,5 @@ storage/*
 **/node_modules
 
 **/tmp
+
+start.sh
