@@ -29,26 +29,26 @@ func Setup(c *gin.Context) {
 		return
 	}
 
-	userPath, _ := utils.GetUserWorkspace(ameConf.Email)
+	userWorkspacePath, _ := utils.GetUserWorkspace(ameConf.Email)
 
-	exists := projectExists(userPath)
+	exists := projectExists(userWorkspacePath)
 
 	if !exists {
-		err := createSources(userPath, currentPath)
+		err := createSources(userWorkspacePath, currentPath)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 	}
 
-	err = appendConfToPackageJson(ameConf, userPath)
+	err = appendConfToPackageJson(ameConf, userWorkspacePath)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	cmd := exec.Command("yarn")
-	cmd.Dir = userPath + "/react-proj"
+	cmd.Dir = userWorkspacePath + "/react-proj"
 
 	// Não Bloqueante
 	// go cmd.Run()
@@ -62,19 +62,22 @@ func Setup(c *gin.Context) {
 
 }
 
-func createSources(userProjPath string, currentPath string) error {
-	if err := os.MkdirAll(userProjPath, os.ModeSticky|os.ModePerm); err != nil {
+func createSources(userWorkspacePath string, currentPath string) error {
+	if err := os.MkdirAll(userWorkspacePath, os.ModeSticky|os.ModePerm); err != nil {
 
 		return err
 	}
 	reactProjPath := path.Join(currentPath, "..", "react-proj/")
+	userProjPath := path.Join(currentPath, "..", "user-proj/")
 
-	utils.Copy(reactProjPath, userProjPath)
+	utils.Copy(reactProjPath, userWorkspacePath)
+	utils.Copy(userProjPath, userWorkspacePath)
+
 	return nil
 }
 
-func projectExists(userProjPath string) bool {
-	_, err := os.ReadDir(userProjPath)
+func projectExists(userWorkspacePath string) bool {
+	_, err := os.ReadDir(userWorkspacePath)
 
 	if err != nil {
 		return false
@@ -83,8 +86,8 @@ func projectExists(userProjPath string) bool {
 	return true
 }
 
-func appendConfToPackageJson(ameConf models.AmeConf, userProjPath string) error {
-	pkgJsonPath := path.Join(userProjPath, "react-proj", "package.json")
+func appendConfToPackageJson(ameConf models.AmeConf, userWorkspacePath string) error {
+	pkgJsonPath := path.Join(userWorkspacePath, "react-proj", "package.json")
 	file, err := os.ReadFile(pkgJsonPath)
 	if err != nil {
 		return err

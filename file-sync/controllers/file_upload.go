@@ -15,7 +15,7 @@ func FileUpload(c *gin.Context) {
 	email := form.Value["email"][0]
 	file, err := c.FormFile("file")
 
-	userPath, err := utils.GetUserWorkspace(email)
+	userWorkspacePath, err := utils.GetUserWorkspace(email)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -24,7 +24,7 @@ func FileUpload(c *gin.Context) {
 	extension := filepath.Ext(file.Filename)
 	newFileName := "miniapp" + extension
 
-	userReactProj := userPath + "/react-proj"
+	userReactProj := userWorkspacePath + "/react-proj"
 
 	c.SaveUploadedFile(file, userReactProj+"/"+newFileName)
 
