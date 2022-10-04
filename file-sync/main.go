@@ -15,7 +15,7 @@ func main() {
 	{
 		v1.GET("/health", controllers.Health)
 		v1.POST("/setup", controllers.Setup)
-		v1.POST("/file-upload", controllers.FileUpload)
+		v1.POST("/uploadAll", controllers.UploadAll)
 
 	}
 

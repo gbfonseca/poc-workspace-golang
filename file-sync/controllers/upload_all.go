@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func FileUpload(c *gin.Context) {
+func UploadAll(c *gin.Context) {
 	form, err := c.MultipartForm()
 
 	email := form.Value["email"][0]
