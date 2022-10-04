@@ -26,5 +26,7 @@ func ListUserFiles(userProjPath string, directory string) ([]string, error) {
 		files = append(files, fileName)
 	}
 
+	files = RemoveDuplicateStr(files)
+
 	return files, nil
 }

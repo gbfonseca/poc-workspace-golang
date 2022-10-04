@@ -1,10 +1,10 @@
 package lib
 
 import (
+	"os"
 	"os/exec"
 	"path"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"workspace_go/main/utils"
 )
@@ -13,10 +13,10 @@ func CreateReactFile(userProjPath string, userReactProj string, data string, fil
 	fileName := filepath.Base(absolutePath)
 	fileExt := filepath.Ext(fileName)
 
-	m := regexp.MustCompile(`\.js$`)
+	fileNameWithoutExt := strings.Replace(fileName, fileExt, "", 1)
 
-	userHtmlFileName := m.ReplaceAllString(fileName, ".jsx")
-	userJsFileName := m.ReplaceAllString(fileName, ".js")
+	userHtmlFileName := fileNameWithoutExt + ".jsx"
+	userJsFileName := fileNameWithoutExt + ".js"
 	userHtmlFilePath := strings.Replace(absolutePath, fileName, userHtmlFileName, 1)
 	userJsFilePath := strings.Replace(absolutePath, fileName, userJsFileName, 1)
 
@@ -49,9 +49,18 @@ func CreateReactFile(userProjPath string, userReactProj string, data string, fil
 		return err
 	}
 
+	buildPath := path.Join(userReactProj, "build")
+
+	files, _ := os.ReadDir(buildPath)
+
+	if files != nil {
+		cmd := exec.Command("rm", "-rf", "build")
+		cmd.Dir = userReactProj
+		cmd.Run()
+	}
+
 	cmd := exec.Command("yarn", "esbuild")
 	cmd.Dir = userReactProj
-
 	cmd.Run()
 
 	createHTMLFiles(userReactProj)
@@ -61,6 +70,11 @@ func CreateReactFile(userProjPath string, userReactProj string, data string, fil
 
 func createHTMLFiles(userReactProj string) {
 	srcEsbuildPath := path.Join(userReactProj, "src", "esbuild.html")
+	srcIndexPath := path.Join(userReactProj, "src", "index.html")
 	buildIndexPath := path.Join(userReactProj, "build", "index.html")
+	publicIndexPath := path.Join(userReactProj, "public", "index.html")
+
 	utils.Copy(srcEsbuildPath, buildIndexPath)
+	utils.Copy(srcIndexPath, publicIndexPath)
+
 }

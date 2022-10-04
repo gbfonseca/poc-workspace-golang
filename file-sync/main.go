@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net/http"
 	"workspace_go/main/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,10 @@ func main() {
 		v1.POST("/setup", controllers.Setup)
 		v1.POST("/uploadAll", controllers.UploadAll)
 		v1.POST("/fileupload", controllers.FileUpload)
+		v1.StaticFS("/storage", http.Dir("../storage"))
+		v1.POST("/share", func(ctx *gin.Context) {
+			ctx.JSON(200, gin.H{})
+		})
 
 	}
 
