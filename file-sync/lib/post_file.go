@@ -8,7 +8,7 @@ import (
 	"workspace_go/main/utils"
 )
 
-func PostFiles(userProjPath string, userWorkspacePath string) error {
+func PostFile(userProjPath string, userWorkspacePath string) error {
 	userReactProj := path.Join(userWorkspacePath, "react-proj")
 	filesOrderPath := path.Join(userProjPath, "__files_order.txt")
 
