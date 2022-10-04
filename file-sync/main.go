@@ -11,7 +11,7 @@ func main() {
 
 	router.SetTrustedProxies([]string{"192.168.15.113"})
 
-	v1 := router.Group("/v1")
+	v1 := router.Group("/v1/workspace")
 	{
 		v1.GET("/health", controllers.Health)
 		v1.POST("/setup", controllers.Setup)
@@ -19,5 +19,5 @@ func main() {
 
 	}
 
-	router.Run()
+	router.Run("localhost:3000")
 }

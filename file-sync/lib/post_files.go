@@ -27,7 +27,7 @@ func PostFiles(userProjPath string, userWorkspacePath string) error {
 
 	filesReadOrder = removeDuplicateStr(filesReadOrder)
 	for _, fileRelativePath := range filesReadOrder {
-		absolutePath := path.Join(userProjPath, "src", fileRelativePath)
+		absolutePath := path.Join(userProjPath, fileRelativePath)
 		fileBuf, _ := os.ReadFile(absolutePath)
 
 		data := string(fileBuf)

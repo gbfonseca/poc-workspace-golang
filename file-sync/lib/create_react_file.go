@@ -26,7 +26,6 @@ func CreateReactFile(userProjPath string, userReactProj string, data string, fil
 	userJsContentData := utils.ReadFileAsString(userJsFilePath)
 
 	splitedJsContent := strings.Split(userJsContentData, "export default class ")
-
 	userJsContentData = utils.GetClassBody(splitedJsContent[1])
 
 	tags := utils.TagsFinder(userHtmlContentData)

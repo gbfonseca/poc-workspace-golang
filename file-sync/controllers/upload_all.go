@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 	"os/exec"
+	"path"
 	"path/filepath"
 	"workspace_go/main/lib"
 	"workspace_go/main/utils"
@@ -25,7 +26,7 @@ func UploadAll(c *gin.Context) {
 	extension := filepath.Ext(file.Filename)
 	newFileName := "miniapp" + extension
 
-	userProj := userWorkspacePath + "/user-proj"
+	userProj := path.Join(userWorkspacePath, "user-proj", "src")
 
 	c.SaveUploadedFile(file, userProj+"/"+newFileName)
 
