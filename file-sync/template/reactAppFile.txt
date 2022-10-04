@@ -1,0 +1,103 @@
+// auto generated code
+// eslint-disable-file no-unused-vars
+// eslint-disable-file no-useless-constructor
+import React from 'react';
+import { Router, Switch, Route } from "react-router-dom";
+import { createBrowserHistory } from "history";
+#IMPORTS
+
+
+class ErrorInfoComponent extends React.Component {
+
+    render = () => {
+        return (
+            window.__WORKSPACE_USER_ID ?
+                (
+                    <div>
+                        <header style={{minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                            <strong style={{color: '#000000', fontSize: '3vw', padding: '40px', textAlign: 'center'}}>
+                                Ops! Ocorreu uma exceção não tratada no miniapp
+                            </strong>
+                        </header>
+                    </div>
+                )
+                :
+                (
+                    <div>
+                        <header style={{color: '#FF2E55', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                            <strong style={{width: '100%', fontSize: '4vw', padding: '20px', textAlign: 'center'}}>
+                                Ocorreu um erro :(
+                            </strong>
+                            <p style={{color: '#000000', fontSize: '3vw', padding: '40px', textAlign: 'center'}}>
+                                O sistema se comportou de maneira inesperada. Aperte em voltar ou fechar no topo da tela para continuar a navegação.
+                            </p>
+                        </header>
+                    </div>
+                )
+        )
+    }
+}
+
+// config do mini app com retrocompatibilidade :-D
+try {
+  window.__miniAppConf = require("./miniAppConf.json");
+} catch(e) {
+  console.log('Erro ao ler metadados do miniapp', e.message)
+}
+
+window.onerror = function(message, source, lineNumber, columnNumber, error) {
+  // This if clause, along with return true, prevents a react issue where errors are thrown twice
+  // More info: https://github.com/facebook/react/issues/11499
+  if (!error?.__ignore){
+    error.__ignore = true
+    let errorObj = {message, source, lineNumber, columnNumber, error}
+    console.log(errorObj.message)
+  }
+
+  return true
+}
+
+let baseURI = window.location.pathname.split('/').filter((item, i, arr) => i < arr.length - 1).join('/');
+let history = createBrowserHistory( { basename: baseURI } );
+window.ameHistory = history;
+
+// #ERROR_HANDLING
+
+class App extends React.Component {
+  // #CONSTRUCTOR_CODE
+  constructor(props) {
+    super(props);
+    this.state = { error: null, errorInfo: null };
+   // ${constructorBodyClassCode}
+  }
+
+  componentDidMount() {
+    this.stopRouteChangeListener = window.ameHistory.listen((location, action) => {
+      // Limpa o state para que não seja renderizado novamente o componente ErrorInfoComponent após o back
+      setTimeout(() => this.setState({ error: null, errorInfo: null }), 500);
+    });
+  }
+
+  componentWillUnmount() {
+      this.stopRouteChangeListener();
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // Catch errors in any components below and re-render with error message
+    this.setState({
+      error: error,
+      errorInfo: errorInfo
+    })
+    // You can also log error messages to an error reporting service here
+    let errorMessage = (error.message || 'undefined error message') + errorInfo.componentStack;
+    console.error('App error:', errorMessage);
+  }
+
+  render() {
+    return (
+        #BROWSER_ROUTER
+    );
+  }
+}
+
+export default App;

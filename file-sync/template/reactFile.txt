@@ -1,0 +1,14 @@
+// eslint-disable-file no-unused-vars
+// eslint-disable-file no-useless-constructor
+
+import React from 'react'
+import Ame from 'ame-super-app-client'
+import {#TAGS} from 'ame-miniapp-components'
+
+export default class #CLASS_NAME extends React.Component {
+  #JS_CONTENT
+
+  render() {
+    return #JSX_CONTENT
+  }
+} 

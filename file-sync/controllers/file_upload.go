@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"os/exec"
 	"path/filepath"
+	"workspace_go/main/lib"
 	"workspace_go/main/utils"
 
 	"github.com/gin-gonic/gin"
@@ -38,6 +39,11 @@ func FileUpload(c *gin.Context) {
 	go cmd.Run()
 
 	// TODO - Transpile JSX -> JS
+	err = lib.PostFiles(userProj, userWorkspacePath)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Upload feito com sucesso",
