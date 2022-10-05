@@ -10,6 +10,9 @@ import (
 )
 
 func Unzip(source string, destination string) error {
+
+	fmt.Println(source, destination)
+
 	// 1. Open the zip file
 	reader, err := zip.OpenReader(source)
 	if err != nil {

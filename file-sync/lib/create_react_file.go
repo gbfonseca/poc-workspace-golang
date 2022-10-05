@@ -35,6 +35,10 @@ func CreateReactFile(userProjPath string, userReactProj string, data string, fil
 	// 	return err
 	// }
 
+	if fileExt == ".jsx" {
+		fileRelativePath = strings.Replace(fileRelativePath, ".jsx", ".js", 1)
+	}
+
 	template := Template(className, userJsContentData, userHtmlContentData, tags)
 
 	reactFilePath := path.Join(userReactProj, "src", fileRelativePath)

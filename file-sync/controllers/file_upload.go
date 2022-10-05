@@ -16,9 +16,6 @@ func FileUpload(c *gin.Context) {
 
 	email := form.Value["email"][0]
 	filePath := form.Value["filepath"][0]
-	// why := form.Value["why"][0]
-	// miniAppVersion := form.Value["miniAppVersion"][0]
-	// forceTranspile := form.Value["forceTranspile"][0]
 
 	file, _ := c.FormFile("file")
 

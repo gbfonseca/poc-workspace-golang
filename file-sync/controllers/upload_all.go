@@ -15,7 +15,7 @@ func UploadAll(c *gin.Context) {
 	form, err := c.MultipartForm()
 
 	email := form.Value["email"][0]
-	file, err := c.FormFile("file")
+	file, _ := c.FormFile("file")
 
 	userWorkspacePath, err := utils.GetUserWorkspace(email)
 	if err != nil {
