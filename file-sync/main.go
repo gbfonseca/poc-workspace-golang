@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
+func Main() {
 	router := gin.Default()
 
 	router.SetTrustedProxies([]string{"192.168.15.113"})
